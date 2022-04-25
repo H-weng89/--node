@@ -48,7 +48,7 @@ exports.login = (req,res)=>{
              return res.cc({},'密码错误',1)
 
          }
-         //生成token
+         //生成token....
          const user = {...result[0],password:'',user_pic:''}  //重置passowrd属性
         let token = jwt.sign(user,config.tokenSecret,{expiresIn:'2h'})
         res.cc({token:'Bearer '+token},'登录成功',0)         
