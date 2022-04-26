@@ -1,18 +1,20 @@
 const express = require('express')
 const app = express()
-//¿çÓò
+
+app.use('//user//avatar',express.static('./avatar')) //æ ¹æ®è¿”å›žçš„è·¯å¾„
+
 const cors = require('cors')
 app.use(cors())
-//½âÎöÊý¾Ý
+
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
-//½âÎötoken
+
 const expressJwt = require('express-jwt')
 const config = require('./config')
-//³ýÁËuser¿ªÍ·²»ÓÃtoken
-app.use(expressJwt({secret:config.tokenSecret}).unless({path:[/^\/user\//]}))
 
-//·â×°res.send
+app.use(expressJwt({secret:config.tokenSecret}).unless({path:[/^\/{1,2}user\//]}))
+
+//ï¿½ï¿½×°res.send
 
 app.use((req,res,next)=>{
     res.cc = (data,msg,status=1)=>{
@@ -26,14 +28,18 @@ app.use((req,res,next)=>{
     next()
 })
 
-//×¢²áÂ·ÓÉ
+//×¢ï¿½ï¿½Â·ï¿½ï¿½
 let user = require('./router/user')
 app.use('/user',user)
+let userInfo = require('./router/userInfo')
+app.use('/my',userInfo)
 
 app.use((err,req,res,next)=>{
     if(err){
+        if (err.name === 'UnauthorizedError') return res.send('èº«ä»½éªŒè¯å¤±è´¥')
+
         console.log(err)
-        return res.cc({},err,1)
+        return res.cc({},err.message?err.message:err,1)
     }
 })
 
@@ -49,7 +55,7 @@ app.use((err,req,res,next)=>{
 
 
 
-//¼àÌý
+//ï¿½ï¿½ï¿½ï¿½
 app.listen(8081,()=>{
     console.log('api server running at http://127.0.0.1:8081')
 })
