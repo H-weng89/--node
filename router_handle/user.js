@@ -13,7 +13,8 @@ exports.register = (req,res)=>{
       if(result.length>0){
          return  res.cc({},'用户名已存在',1)
       }
-      //用户可用
+      //用户可用,加密密码
+      
       data.password = bcrypt.hashSync(data.password,10)
 
       let insertStr = 'insert into user set ?'
