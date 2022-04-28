@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
 
-app.use('//user//avatar',express.static('./avatar')) //根据返回的路径
+app.use('/user/avatar',express.static('./avatar')) //根据返回的路径
+app.use('/user/article_img',express.static('./article_img'))
+app.use('/public',express.static('./public'))
 
 const cors = require('cors')
 app.use(cors())
@@ -12,9 +14,9 @@ app.use(express.json())
 const expressJwt = require('express-jwt')
 const config = require('./config')
 
-app.use(expressJwt({secret:config.tokenSecret}).unless({path:[/^\/{1,2}user\//]}))
+app.use(expressJwt({secret:config.tokenSecret}).unless({path:[/(\/{1,2}user\/)*(\/public)*/]}))
 
-//��װres.send
+//封装res.send
 
 app.use((req,res,next)=>{
     res.cc = (data,msg,status=1)=>{
@@ -28,9 +30,11 @@ app.use((req,res,next)=>{
     next()
 })
 
-//ע��·��
+//引入路由
 let user = require('./router/user')
 app.use('/user',user)
+let article = require('./router/article')
+app.use('/article',article)
 let userInfo = require('./router/userInfo')
 app.use('/my',userInfo)
 
@@ -56,6 +60,6 @@ app.use((err,req,res,next)=>{
 
 
 //����
-app.listen(8081,()=>{
-    console.log('api server running at http://127.0.0.1:8081')
+app.listen(8085,()=>{
+    console.log('api server running at http://127.0.0.1:8085/public/apidoc')
 })

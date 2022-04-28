@@ -1,0 +1,14 @@
+
+{
+  "name": "user-service",
+  "version": "1.0.0",
+  "description": "用户服务API文档",
+  "title": "user-service API Doc",
+  "url": "http://localhost:8081/",
+  "sampleUrl": "http://localhost:8081/",
+  "forceLanguage": "zh-cn",
+  "template": {
+      "withCompare": true,
+      "withGenerator": true
+  }
+}

@@ -51,7 +51,7 @@ exports.login = (req,res)=>{
          }
          //生成token....
          const user = {...result[0],password:'',user_pic:''}  //重置passowrd属性
-        let token = jwt.sign(user,config.tokenSecret,{expiresIn:'2h'})
+        let token = jwt.sign(user,config.tokenSecret,{expiresIn:'5h'})
         res.cc({token:'Bearer '+token},'登录成功',0)         
 
      })

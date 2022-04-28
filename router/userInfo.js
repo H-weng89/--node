@@ -9,6 +9,7 @@ const storage = multer.diskStorage({
       cb(null, path.join(__dirname,'../avatar'))
     },
     filename: function (req, file, cb) {
+      console.log(req.user)
      
       cb(null, req.user.username+'.'+file.mimetype.split('/')[1])
     }

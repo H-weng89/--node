@@ -54,7 +54,7 @@ exports.avatar = (req,res)=>{
     console.log(req.file)
   
     let str = 'update user set user_pic = ? where id = ?'
-    let url = path.join(' http://127.0.0.1:8081/user/avatar',req.file.filename)
+    let url = ' http://127.0.0.1:8081/user/avatar/'+req.file.filename
     db.query(str,[url,req.user.id],(err,result)=>{
         if(err) return res.send(err)
         if(result.affectedRows==1){
